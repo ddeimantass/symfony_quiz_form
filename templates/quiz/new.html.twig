@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Quiz{% endblock %}
+
+{% block body %}
+    <h1>Create new Quiz</h1>
+
+    {{ include('quiz/_form.html.twig') }}
+
+    <a href="{{ path('quiz_index') }}">back to list</a>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        const $addQuestionTagLink = $('<a href="#" class="add_question">add question</a>');
+        const $newQuestionLink = $('<div></div>').append($addQuestionTagLink);
+
+        const $addAnswerTagLink = $('<a href="#" class="add_answer">add answer</a>');
+        const $newAnswerLink = $('<div></div>').append($addAnswerTagLink);
+
+        $(document).ready(function() {
+            let $questionCollectionHolder = $('div#quiz_questions');
+            $questionCollectionHolder.append($newQuestionLink);
+            $questionCollectionHolder.data('index', $questionCollectionHolder.find(':input').length);
+
+            let counter = 0;
+
+            $addQuestionTagLink.on('click', function(e) {
+                e.preventDefault();
+                addTagForm($questionCollectionHolder, $newQuestionLink, 'question');
+
+                let $answerCollectionHolder = $('div#quiz_questions_' + counter + '_answers');
+                ++counter;
+
+                $answerCollectionHolder.append($newAnswerLink);
+            });
+
+            $("body").on('click', 'a.add_answer', function(e) {
+                e.preventDefault();
+                let $answerCollectionHolder = $(this).parent().parent();
+                $answerCollectionHolder.data('index', $answerCollectionHolder.find(':input').length);
+                addTagForm($answerCollectionHolder, $newAnswerLink, 'answer');
+            });
+
+
+
+        });
+
+        function addTagForm($collectionHolder, $newLinkLi, title) {
+            let prototype = $collectionHolder.data('prototype');
+            let index = $collectionHolder.data('index');
+
+            let newForm = prototype.replace(/__name__/g, index);
+            newForm = newForm.replace(/label__/g, '');
+
+            $collectionHolder.data('index', index + 1);
+
+            let $newFormLi = $('<div></div>').append(newForm);
+
+            $newFormLi.append('<a href="#" class="remove-tag">remove ' + title + '</a>');
+
+            $newLinkLi.before($newFormLi);
+
+            $('.remove-tag').click(function(e) {
+                e.preventDefault();
+
+                $(this).parent().remove();
+
+                return false;
+            });
+        }
+
+    </script>
+{% endblock %}
