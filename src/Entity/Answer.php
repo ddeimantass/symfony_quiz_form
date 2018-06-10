@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\AnswerRepository")
+ * @ORM\Entity
  */
 class Answer
 {
@@ -22,7 +22,8 @@ class Answer
     private $text;
     
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Question", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Question", cascade={"persist", "remove"}, inversedBy="answers")
+     * @ORM\JoinColumn(name="question_id", referencedColumnName="id")
      */
     private $question;
     

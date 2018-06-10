@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\QuestionRepository")
+ * @ORM\Entity()
  */
 class Question
 {
@@ -25,11 +25,12 @@ class Question
     
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Quiz", cascade={"persist"})
+     * @ORM\JoinColumn(name="quiz_id", referencedColumnName="id")
      */
     private $quiz;
     
     /**
-     * @ORM\OneToMany(targetEntity="Answer", mappedBy="Question", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Answer", mappedBy="question", cascade={"persist"})
      */
     private $answers;
 
@@ -63,6 +64,7 @@ class Question
     public function setQuiz(Quiz $quiz): self
     {
         $this->quiz = $quiz;
+        
         return $this;
     }
 
@@ -76,7 +78,7 @@ class Question
 
     public function addAnswer(Answer $answer): self
     {
-        if (!$this->answers->contains($answer)) {
+        if (false === $this->answers->contains($answer)) {
             $this->answers[] = $answer;
             $answer->setQuestion($this);
         }

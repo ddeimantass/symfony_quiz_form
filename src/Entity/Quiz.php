@@ -24,7 +24,7 @@ class Quiz
     private $title;
     
     /**
-     * @ORM\OneToMany(targetEntity="Question", mappedBy="Quiz", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Question", mappedBy="quiz", cascade={"all"})
      * @var Question[]|Collection
      */
     private $questions;
@@ -61,7 +61,7 @@ class Quiz
 
     public function addQuestion(Question $question): self
     {
-        if (!$this->questions->contains($question)) {
+        if (false === $this->questions->contains($question)) {
             $this->questions[] = $question;
             $question->setQuiz($this);
         }

@@ -1,0 +1,91 @@
+<script>
+    var $collectionHolder;
+
+    var $addQuestionLink = $('<button href="#" class="add_question_link btn btn-success">Add question</button>');
+    var $newLinkLi = $addQuestionLink;
+
+    $(document).ready(function() {
+        $collectionHolder = $('ul.questions');
+
+        $collectionHolder.find('li').each(function() {
+            addQuestionFormDeleteLink($(this));
+        });
+
+        $collectionHolder.append($newLinkLi);
+
+        $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+        $addQuestionLink.on('click', function(e) {
+            e.preventDefault();
+            addQuestionForm($collectionHolder, $newLinkLi);
+        });
+
+        $('.questions').on('click', '.add_answer_link', function(e) {
+            e.preventDefault();
+
+            var $answerPrototype = $collectionHolder.data('answer-prototype');
+
+            var questionContainer = $(e.target).closest('.question')[0].innerHTML;
+            var questionIndex = questionContainer.match(/[0-9]+/)[0];
+            var answerIndex = $(e.target).closest('.question').find(':input[type=checkbox]').length;
+
+
+            var answerForm = $answerPrototype;
+
+            answerForm = answerForm.replace(/__question_name__/g, questionIndex);
+            answerForm = answerForm.replace(/__answer_name__/g, answerIndex);
+            answerForm = answerForm.replace(/__answer_number__/g, answerIndex + 1);
+
+            var $newFormLi = $('<li class="answer"></li>').append(answerForm);
+
+            $(e.target).parent().prev().append($newFormLi);
+
+            addAnswerFormDeleteLink($newFormLi);
+
+        });
+    });
+
+    function addQuestionForm($collectionHolder, $newLinkLi) {
+        var prototype = $collectionHolder.data('prototype');
+
+        var index = $collectionHolder.data('index');
+
+        var newForm = prototype;
+
+        newForm = newForm.replace(/__question_name__/g, index);
+        newForm = newForm.replace(/__question_number__/g, index + 1);
+
+        $collectionHolder.data('index', index + 1);
+
+        var $newFormLi = $('<li class="question"></li>').append(newForm);
+
+        $newFormLi.append('<ul class="answers"></ul>');
+
+        var $addAnswerLink = $('<li><a href="#" class="add_answer_link">Add an answer</a></li><br/>');
+        $newFormLi.append($addAnswerLink);
+
+
+        $newLinkLi.before($newFormLi);
+        addQuestionFormDeleteLink($newFormLi);
+    }
+
+    function addQuestionFormDeleteLink($questionFormLi) {
+        var $removeFormA = $('<a href="#" class="delete_question_link" ><span class="badge badge-danger">Remove question</span></a>');
+        $questionFormLi.append($removeFormA);
+
+        $removeFormA.on('click', function(e) {
+            e.preventDefault();
+            $questionFormLi.remove();
+        });
+    }
+
+    function addAnswerFormDeleteLink($questionFormLi) {
+        var $removeFormA = $('<a href="#" class="delete_answer_link"><span class="badge badge-warning">Remove answer</span></a>');
+        $questionFormLi.append($removeFormA);
+
+        $removeFormA.on('click', function(e) {
+            e.preventDefault();
+            $questionFormLi.remove();
+        });
+    }
+</script>

@@ -15,7 +15,7 @@ class AnswerType extends AbstractType
     {
         $builder
             ->add('text', TextType::class, [
-                'label' => 'Answer text'
+                'label' => 'Answer'
             ])
             ->add('correct', CheckboxType::class, [
                 'label' => 'Is correct',

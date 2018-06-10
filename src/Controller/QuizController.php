@@ -35,15 +35,15 @@ class QuizController extends Controller
         $quiz = new Quiz();
         $form = $this->createForm(QuizType::class, $quiz);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($quiz);
             $em->flush();
-
+            
             return $this->redirectToRoute('quiz_index');
         }
-
+        
         return $this->render('quiz/new.html.twig', [
             'quiz' => $quiz,
             'form' => $form->createView(),
@@ -70,13 +70,15 @@ class QuizController extends Controller
     {
         $form = $this->createForm(QuizType::class, $quiz);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($quiz);
+            $em->flush();
+            
             return $this->redirectToRoute('quiz_edit', ['id' => $quiz->getId()]);
         }
-
+        
         return $this->render('quiz/edit.html.twig', [
             'quiz' => $quiz,
             'form' => $form->createView(),
@@ -91,12 +93,12 @@ class QuizController extends Controller
      */
     public function delete(Request $request, Quiz $quiz): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$quiz->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $quiz->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($quiz);
             $em->flush();
         }
-
+        
         return $this->redirectToRoute('quiz_index');
     }
 }

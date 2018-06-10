@@ -1,4 +1,20 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    <div class="form-group">
+        {{ form_row(form.title, {'attr': {'class': 'form-control'}} ) }}
+    </div>
+    <h5>Questions</h5>
+    <ul class="questions" data-answer-prototype="{{ form_widget(form.questions.vars.prototype.children.answers.vars.prototype)|e('html_attr') }}" data-prototype="{{ form_widget(form.questions.vars.prototype)|e('html_attr') }}">
+        {# iterate over each existing question and render its only field: name #}
+        {% for question in form.questions %}
+            <li>{{ form_row(question.text) }}</li>
+            <ul class="answers">
+                {% for answer in question.answers %}
+                    <li>{{ form_row(answer.text) }}</li>
+                    <li>{{ form_row(answer.correct) }}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </ul>
+
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

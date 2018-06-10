@@ -18,6 +18,26 @@
         </tbody>
     </table>
 
+    <h5>Questions</h5>
+
+    <ol>
+        {% for question in quiz.questions %}
+            <li>{{ question.text }}</li>
+            <ol>
+                {% for answer in question.answers %}
+                    <li>
+                        {{ answer.text }}
+                        {% if answer.correct %}
+                            <i class="fas fa-check"></i>
+                        {% else %}
+                            <i class="fas fa-times"></i>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ol>
+        {% endfor %}
+    </ol>
+
     <a href="{{ path('quiz_index') }}">back to list</a>
 
     <a href="{{ path('quiz_edit', {'id': quiz.id}) }}">edit</a>

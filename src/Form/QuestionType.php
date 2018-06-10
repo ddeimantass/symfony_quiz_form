@@ -15,12 +15,14 @@ class QuestionType extends AbstractType
     {
         $builder
             ->add('text', TextType::class, [
-                'label' => 'Question text'
+                'label' => 'Question'
             ])
             ->add('answers', CollectionType::class, [
                 'entry_type' => AnswerType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
+                'prototype_name' => '__answer_name__',
+                'by_reference' => false,
                 'entry_options' => [
                     'label' => false
                 ]

@@ -21,6 +21,8 @@ class QuizType extends AbstractType
                 'entry_type' => QuestionType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
+                'by_reference' => false,
+                'prototype_name' => '__question_name__',
                 'entry_options' => [
                     'label' => false
                 ]
