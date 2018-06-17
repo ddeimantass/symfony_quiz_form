@@ -11,11 +11,16 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class QuestionType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('text', TextType::class, [
-                'label' => 'Question'
+                'label' => 'Question',
             ])
             ->add('answers', CollectionType::class, [
                 'entry_type' => AnswerType::class,
@@ -24,13 +29,16 @@ class QuestionType extends AbstractType
                 'prototype_name' => '__answer_name__',
                 'by_reference' => false,
                 'entry_options' => [
-                    'label' => false
-                ]
-            ])
-        ;
+                    'label' => false,
+                ],
+            ]);
     }
     
-    public function configureOptions(OptionsResolver $resolver)
+    /**
+     * @param OptionsResolver $resolver
+     * @return void
+     */
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Question::class,

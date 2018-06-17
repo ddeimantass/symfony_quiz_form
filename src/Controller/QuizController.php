@@ -22,7 +22,7 @@ class QuizController extends Controller
      */
     public function index(QuizRepository $quizRepository): Response
     {
-        return $this->render('quiz/index.html.twig', ['quizzes' => $quizRepository->findAll()]);
+        return $this->render('quiz/list.html.twig', ['quizzes' => $quizRepository->findAll()]);
     }
     
     /**

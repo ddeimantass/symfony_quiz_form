@@ -17,7 +17,7 @@ class Question
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    
     /**
      * @ORM\Column(type="text")
      */
@@ -33,41 +33,61 @@ class Question
      * @ORM\OneToMany(targetEntity="Answer", mappedBy="question", cascade={"persist"})
      */
     private $answers;
-
+    
+    /**
+     * Question constructor.
+     */
     public function __construct()
     {
         $this->answers = new ArrayCollection();
     }
-
-    public function getId()
+    
+    /**
+     * @return int
+     */
+    public function getId(): int
     {
         return $this->id;
     }
-
+    
+    /**
+     * @return null|string
+     */
     public function getText(): ?string
     {
         return $this->text;
     }
-
+    
+    /**
+     * @param string $text
+     * @return Question
+     */
     public function setText(string $text): self
     {
         $this->text = $text;
-
+        
         return $this;
     }
     
+    /**
+     * @return Quiz|null
+     */
     public function getQuiz(): ?Quiz
     {
         return $this->quiz;
     }
     
+    /**
+     * @param Quiz $quiz
+     * @return Question
+     */
     public function setQuiz(Quiz $quiz): self
     {
         $this->quiz = $quiz;
         
         return $this;
     }
-
+    
     /**
      * @return Collection|Answer[]
      */
@@ -75,17 +95,25 @@ class Question
     {
         return $this->answers;
     }
-
+    
+    /**
+     * @param Answer $answer
+     * @return Question
+     */
     public function addAnswer(Answer $answer): self
     {
         if (false === $this->answers->contains($answer)) {
             $this->answers[] = $answer;
             $answer->setQuestion($this);
         }
-
+        
         return $this;
     }
-
+    
+    /**
+     * @param Answer $answer
+     * @return Question
+     */
     public function removeAnswer(Answer $answer): self
     {
         if ($this->answers->contains($answer)) {
@@ -95,7 +123,7 @@ class Question
                 $answer->setQuestion(null);
             }
         }
-
+        
         return $this;
     }
 }

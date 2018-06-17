@@ -17,7 +17,7 @@ class Quiz
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -28,29 +28,42 @@ class Quiz
      * @var Question[]|Collection
      */
     private $questions;
-
+    
+    /**
+     * Quiz constructor.
+     */
     public function __construct()
     {
         $this->questions = new ArrayCollection();
     }
-
-    public function getId()
+    
+    /**
+     * @return int
+     */
+    public function getId(): int
     {
         return $this->id;
     }
-
+    
+    /**
+     * @return null|string
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
-
+    
+    /**
+     * @param string $title
+     * @return Quiz
+     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
+        
         return $this;
     }
-
+    
     /**
      * @return Collection|Question[]
      */
@@ -58,17 +71,25 @@ class Quiz
     {
         return $this->questions;
     }
-
+    
+    /**
+     * @param Question $question
+     * @return Quiz
+     */
     public function addQuestion(Question $question): self
     {
         if (false === $this->questions->contains($question)) {
             $this->questions[] = $question;
             $question->setQuiz($this);
         }
-
+        
         return $this;
     }
-
+    
+    /**
+     * @param Question $question
+     * @return Quiz
+     */
     public function removeQuestion(Question $question): self
     {
         if ($this->questions->contains($question)) {
@@ -78,7 +99,7 @@ class Quiz
                 $question->setQuiz(null);
             }
         }
-
+        
         return $this;
     }
 }

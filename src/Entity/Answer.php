@@ -15,7 +15,7 @@ class Answer
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -31,45 +31,69 @@ class Answer
      * @ORM\Column(type="boolean")
      */
     private $correct;
-
-    public function getId()
+    
+    /**
+     * @return int
+     */
+    public function getId(): int
     {
         return $this->id;
     }
-
+    
+    /**
+     * @return null|string
+     */
     public function getText(): ?string
     {
         return $this->text;
     }
-
+    
+    /**
+     * @param string $text
+     * @return Answer
+     */
     public function setText(string $text): self
     {
         $this->text = $text;
-
+        
         return $this;
     }
-
+    
+    /**
+     * @return Question|null
+     */
     public function getQuestion(): ?Question
     {
         return $this->question;
     }
-
+    
+    /**
+     * @param Question $question
+     * @return Answer
+     */
     public function setQuestion(Question $question): self
     {
         $this->question = $question;
-
+        
         return $this;
     }
-
+    
+    /**
+     * @return bool|null
+     */
     public function getCorrect(): ?bool
     {
         return $this->correct;
     }
-
+    
+    /**
+     * @param bool $correct
+     * @return Answer
+     */
     public function setCorrect(bool $correct): self
     {
         $this->correct = $correct;
-
+        
         return $this;
     }
 }

@@ -5,3 +5,8 @@ Task for better understanding of Symfony framework forms.
 
 ## Run
 
+ - composer install
+ - cp .env.dist .env
+ - change DATABASE_URL variable in .env file to create your database
+ - bin/console doctrine:database:create
+ - bin/console server:run
